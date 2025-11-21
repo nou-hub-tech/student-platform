@@ -1,0 +1,81 @@
+<div class="admin-class-session-management">
+  <div class="header">
+    <h1>Class Session Management</h1>
+    <button mat-raised-button color="primary" (click)="openClassSessionFormDialog()">
+      <mat-icon>add</mat-icon>
+      Add New Class Session
+    </button>
+  </div>
+
+  <div class="content">
+    <mat-card>
+      <mat-card-content>
+        <div *ngIf="loading" class="loading">
+          <mat-spinner></mat-spinner>
+          <p>Loading class sessions...</p>
+        </div>
+
+        <div *ngIf="!loading">
+          <table mat-table [dataSource]="classSessions" class="class-session-table">
+            <!-- Subject Column -->
+            <ng-container matColumnDef="subject">
+              <th mat-header-cell *matHeaderCellDef>Subject</th>
+              <td mat-cell *matCellDef="let session">{{ session.subject.nom }}</td>
+            </ng-container>
+
+            <!-- Instructor Column -->
+            <ng-container matColumnDef="instructor">
+              <th mat-header-cell *matHeaderCellDef>Instructor</th>
+              <td mat-cell *matCellDef="let session">{{ session.instructor }}</td>
+            </ng-container>
+
+            <!-- Day of Week Column -->
+            <ng-container matColumnDef="dayOfWeek">
+              <th mat-header-cell *matHeaderCellDef>Day</th>
+              <td mat-cell *matCellDef="let session">{{ getDayOfWeekName(session.dayOfWeek) }}</td>
+            </ng-container>
+
+            <!-- Start Time Column -->
+            <ng-container matColumnDef="startTime">
+              <th mat-header-cell *matHeaderCellDef>Start Time</th>
+              <td mat-cell *matCellDef="let session">{{ formatTime(session.startTime) }}</td>
+            </ng-container>
+
+            <!-- End Time Column -->
+            <ng-container matColumnDef="endTime">
+              <th mat-header-cell *matHeaderCellDef>End Time</th>
+              <td mat-cell *matCellDef="let session">{{ formatTime(session.endTime) }}</td>
+            </ng-container>
+
+            <!-- Room Column -->
+            <ng-container matColumnDef="room">
+              <th mat-header-cell *matHeaderCellDef>Room</th>
+              <td mat-cell *matCellDef="let session">{{ session.room }}</td>
+            </ng-container>
+
+            <!-- Actions Column -->
+            <ng-container matColumnDef="actions">
+              <th mat-header-cell *matHeaderCellDef>Actions</th>
+              <td mat-cell *matCellDef="let session">
+                <button mat-icon-button color="primary" (click)="openClassSessionFormDialog(session)" matTooltip="Edit">
+                  <mat-icon>edit</mat-icon>
+                </button>
+                <button mat-icon-button color="warn" (click)="deleteClassSession(session)" matTooltip="Delete">
+                  <mat-icon>delete</mat-icon>
+                </button>
+              </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+          </table>
+
+          <div *ngIf="classSessions.length === 0" class="no-data">
+            <mat-icon>event_busy</mat-icon>
+            <p>No class sessions found. Create your first class session!</p>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div> 

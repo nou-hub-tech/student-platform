@@ -1,0 +1,39 @@
+.exam-form-dialog {
+  .form-row {
+    margin-bottom: 16px;
+    
+    .full-width {
+      width: 100%;
+    }
+    
+    .half-width {
+      width: calc(50% - 8px);
+      margin-right: 16px;
+      
+      &:last-child {
+        margin-right: 0;
+      }
+    }
+  }
+  
+  .students-list {
+    max-height: 200px;
+    overflow-y: auto;
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+    padding: 8px;
+    
+    .student-checkbox {
+      display: block;
+      margin-bottom: 8px;
+      
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+  }
+  
+  mat-dialog-actions {
+    padding-top: 16px;
+  }
+} 

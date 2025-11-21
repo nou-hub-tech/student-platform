@@ -1,0 +1,102 @@
+<div class="student-calendar">
+  <div class="header">
+    <h1>My Calendar</h1>
+    <div class="calendar-controls">
+      <button mat-icon-button (click)="previousWeek()" matTooltip="Previous Week">
+        <mat-icon>chevron_left</mat-icon>
+      </button>
+      <button mat-raised-button (click)="goToToday()">Today</button>
+      <button mat-icon-button (click)="nextWeek()" matTooltip="Next Week">
+        <mat-icon>chevron_right</mat-icon>
+      </button>
+    </div>
+  </div>
+
+  <div class="content">
+    <mat-card>
+      <mat-card-content>
+        <div *ngIf="loading" class="loading">
+          <mat-spinner></mat-spinner>
+          <p>Loading calendar...</p>
+        </div>
+
+        <div *ngIf="!loading" class="calendar">
+          <!-- Calendar Header -->
+          <div class="calendar-header">
+            <div class="time-column">
+              <div class="time-header">Time</div>
+            </div>
+            <div class="day-column" *ngFor="let date of currentWeek">
+              <div class="day-header">
+                <div class="day-name">{{ getDayName(date) }}</div>
+                <div class="day-date">{{ date.getDate() }}</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Calendar Body -->
+          <div class="calendar-body">
+            <div class="time-slots">
+              <div class="time-slot" *ngFor="let hour of [8,9,10,11,12,13,14,15,16,17,18,19,20]">
+                <div class="time-label">{{ hour }}:00</div>
+              </div>
+            </div>
+
+            <div class="calendar-grid">
+              <div class="day-column" *ngFor="let date of currentWeek">
+                <div class="day-events">
+                  <div 
+                    *ngFor="let event of getEventsForDate(date)" 
+                    class="calendar-event"
+                    [class.exam-event]="event.type === 'exam'"
+                    [class.class-event]="event.type === 'class'"
+                    [style.background-color]="event.color"
+                    (click)="selectEvent(event)"
+                    [matTooltip]="event.title + ' - ' + formatTime(event.startTime) + ' to ' + formatTime(event.endTime)">
+                    <div class="event-title">{{ event.title }}</div>
+                    <div class="event-time">{{ formatTime(event.startTime) }} - {{ formatTime(event.endTime) }}</div>
+                    <div class="event-location">{{ event.location }}</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Event Details Dialog -->
+        <div *ngIf="selectedEvent" class="event-details-overlay" (click)="closeEventDetails()">
+          <div class="event-details" (click)="$event.stopPropagation()">
+            <div class="event-details-header">
+              <h3>{{ selectedEvent.title }}</h3>
+              <button mat-icon-button (click)="closeEventDetails()">
+                <mat-icon>close</mat-icon>
+              </button>
+            </div>
+            <div class="event-details-content">
+              <div class="detail-row">
+                <mat-icon>event</mat-icon>
+                <span>{{ formatDate(selectedEvent.date) }}</span>
+              </div>
+              <div class="detail-row">
+                <mat-icon>schedule</mat-icon>
+                <span>{{ formatTime(selectedEvent.startTime) }} - {{ formatTime(selectedEvent.endTime) }}</span>
+              </div>
+              <div class="detail-row">
+                <mat-icon>location_on</mat-icon>
+                <span>{{ selectedEvent.location }}</span>
+              </div>
+              <div class="detail-row">
+                <mat-icon>school</mat-icon>
+                <span>{{ selectedEvent.subject }}</span>
+              </div>
+              <div class="detail-row">
+                <mat-icon>{{ selectedEvent.type === 'exam' ? 'quiz' : 'class' }}</mat-icon>
+                <span>{{ selectedEvent.type === 'exam' ? 'Exam' : 'Class Session' }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div> 

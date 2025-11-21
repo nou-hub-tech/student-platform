@@ -1,0 +1,215 @@
+.navigation-toolbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.toolbar-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.toolbar-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.toolbar-icon {
+  font-size: 28px;
+  width: 28px;
+  height: 28px;
+}
+
+.toolbar-title {
+  font-size: 20px;
+  font-weight: 500;
+  color: white;
+}
+
+.toolbar-center {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+}
+
+.nav-links {
+  display: flex;
+  gap: 8px;
+}
+
+.nav-links a {
+  color: white;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  border-radius: 8px;
+  transition: background-color 0.2s ease;
+}
+
+.nav-links a:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.nav-links a.active {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.nav-links mat-icon {
+  font-size: 20px;
+  width: 20px;
+  height: 20px;
+}
+
+.toolbar-right {
+  display: flex;
+  align-items: center;
+}
+
+.user-menu-button {
+  color: white;
+}
+
+.user-menu {
+  min-width: 200px;
+}
+
+.user-menu-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px;
+  background-color: #f8f9fa;
+}
+
+.user-menu-header mat-icon {
+  font-size: 32px;
+  width: 32px;
+  height: 32px;
+  color: var(--primary-color);
+}
+
+.user-info {
+  flex: 1;
+}
+
+.user-name {
+  font-weight: 500;
+  color: var(--text-primary);
+  margin-bottom: 4px;
+}
+
+.user-role {
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+.sidenav-container {
+  height: 100%;
+}
+
+.sidenav {
+  width: 250px;
+  border-right: none;
+  @apply transition-all duration-300 ease-in-out;
+}
+
+mat-toolbar {
+  @apply transition-all duration-300 ease-in-out;
+}
+
+.mat-list-item {
+  transition: all 0.2s ease-in-out;
+
+  &:hover {
+    background-color: #f9fafb; /* gray-50 equivalent */
+  }
+}
+
+.active {
+  background-color: rgba(121, 134, 203, 0.1); /* primary-light/10 equivalent */
+  border-right: 4px solid #3f51b5; /* border-primary-DEFAULT equivalent */
+}
+
+// Custom styling for active routes
+.mat-mdc-list-item.active {
+  .mdc-list-item__content {
+    .mat-icon,
+    span {
+      color: #3f51b5; /* text-primary-DEFAULT equivalent */
+      font-weight: 500; /* font-medium equivalent */
+    }
+  }
+}
+
+.nav-section {
+  @apply mb-4;
+}
+
+// User profile section
+.user-menu-header {
+  @apply p-4 flex items-center;
+}
+
+// Override mat-menu min-width for user menu
+::ng-deep .mat-mdc-menu-panel.user-menu {
+  min-width: 200px !important;
+}
+
+// Animations for navigation items
+a.mat-mdc-list-item {
+  @apply overflow-hidden;
+
+  .mat-icon {
+    @apply transition-transform duration-200 ease-in-out;
+  }
+
+  &:hover .mat-icon {
+    @apply transform scale-110;
+  }
+}
+
+// Page content container
+.page-content {
+  @apply p-4 md:p-6 animate-fade-in;
+}
+
+// Responsive adjustments
+@media (max-width: 768px) {
+  .toolbar-content {
+    padding: 0 10px;
+  }
+
+  .toolbar-title {
+    font-size: 16px;
+  }
+
+  .nav-links {
+    gap: 4px;
+  }
+
+  .nav-links a {
+    padding: 6px 8px;
+    font-size: 12px;
+  }
+
+  .nav-links mat-icon {
+    font-size: 16px;
+    width: 16px;
+    height: 16px;
+  }
+
+  .sidenav {
+    width: 280px;
+  }
+}

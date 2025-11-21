@@ -1,0 +1,147 @@
+<div class="complaint-response-dialog">
+  <h2 mat-dialog-title>
+    <mat-icon>reply</mat-icon>
+    Respond to Complaint
+  </h2>
+
+  <mat-dialog-content>
+    <div class="response-content">
+      <!-- Complaint Summary -->
+      <div class="complaint-summary">
+        <h4>Complaint Summary</h4>
+        <div class="summary-card">
+          <div class="summary-header">
+            <div class="complaint-title">{{ complaint.title }}</div>
+            <mat-chip [style.background-color]="getStatusInfo(complaint.status)?.color" 
+                     [style.color]="'white'">
+              {{ complaint.status }}
+            </mat-chip>
+          </div>
+          <div class="summary-meta">
+            <div class="meta-item">
+              <mat-icon>person</mat-icon>
+              <span>{{ student?.prenom }} {{ student?.nom }}</span>
+            </div>
+            <div class="meta-item">
+              <mat-icon>calendar_today</mat-icon>
+              <span>{{ formatDate(complaint.createdAt || '') }}</span>
+            </div>
+          </div>
+          <div class="summary-description">
+            {{ complaint.description }}
+          </div>
+        </div>
+      </div>
+
+      <!-- Response Form -->
+      <form [formGroup]="responseForm" class="response-form">
+        <!-- Response Templates -->
+        <div class="templates-section">
+          <h4>Quick Response Templates</h4>
+          <div class="templates-grid">
+            <button type="button" 
+                    mat-stroked-button 
+                    *ngFor="let template of responseTemplates"
+                    (click)="useTemplate(template)"
+                    class="template-button">
+              <div class="template-title">{{ template.title }}</div>
+              <div class="template-preview">{{ template.content | slice:0:60 }}...</div>
+            </button>
+          </div>
+        </div>
+
+        <!-- Response Text Area -->
+        <div class="response-input-section">
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Administrative Response</mat-label>
+            <textarea 
+              matInput 
+              formControlName="adminResponse" 
+              rows="6"
+              placeholder="Enter your response to the student's complaint...">
+            </textarea>
+            <mat-hint align="end">{{ getCharacterCount() }} characters</mat-hint>
+            <mat-error *ngIf="responseForm.get('adminResponse')?.hasError('required')">
+              Response is required
+            </mat-error>
+            <mat-error *ngIf="responseForm.get('adminResponse')?.hasError('minlength')">
+              Response must be at least 10 characters long
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <!-- Status Update -->
+        <div class="status-section">
+          <h4>Update Status</h4>
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>New Status</mat-label>
+            <mat-select formControlName="status">
+              <mat-option [value]="complaint.status">
+                Keep Current Status ({{ complaint.status }})
+              </mat-option>
+              <mat-option *ngFor="let status of statusOptions" [value]="status.value">
+                <div class="status-option">
+                  <mat-icon [style.color]="status.color">{{ status.icon }}</mat-icon>
+                  {{ status.label }}
+                </div>
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="responseForm.get('status')?.hasError('required')">
+              Status is required
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <!-- Current Response (if exists) -->
+        <div class="current-response-section" *ngIf="complaint.adminResponse">
+          <h4>Current Response</h4>
+          <div class="current-response">
+            {{ complaint.adminResponse }}
+          </div>
+          <div class="response-meta">
+            <mat-icon>schedule</mat-icon>
+            <span>Last updated: {{ formatDate(complaint.updatedAt || '') }}</span>
+          </div>
+        </div>
+
+        <!-- Guidelines -->
+        <div class="guidelines-section">
+          <h4>Response Guidelines</h4>
+          <div class="guidelines">
+            <div class="guideline-item">
+              <mat-icon>check_circle</mat-icon>
+              <span>Be professional and empathetic in your response</span>
+            </div>
+            <div class="guideline-item">
+              <mat-icon>check_circle</mat-icon>
+              <span>Provide clear explanations for decisions made</span>
+            </div>
+            <div class="guideline-item">
+              <mat-icon>check_circle</mat-icon>
+              <span>Include next steps or actions if applicable</span>
+            </div>
+            <div class="guideline-item">
+              <mat-icon>check_circle</mat-icon>
+              <span>Ensure response addresses the student's specific concerns</span>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </mat-dialog-content>
+
+  <mat-dialog-actions align="end">
+    <button mat-button (click)="onCancel()" [disabled]="loading">
+      Cancel
+    </button>
+    <button 
+      mat-raised-button 
+      color="primary" 
+      (click)="onSubmit()" 
+      [disabled]="!isFormValid()">
+      <mat-spinner *ngIf="loading" diameter="20" class="button-spinner"></mat-spinner>
+      <mat-icon *ngIf="!loading">send</mat-icon>
+      {{ loading ? 'Sending...' : 'Send Response' }}
+    </button>
+  </mat-dialog-actions>
+</div>

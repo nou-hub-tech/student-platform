@@ -1,0 +1,59 @@
+<div class="login-container">
+  <div class="login-card">
+    <div class="login-header">
+      <mat-icon class="login-icon">school</mat-icon>
+      <h1>Student Management System</h1>
+      <p>Sign in to your account</p>
+    </div>
+
+    <!-- Debug buttons for testing
+    <div class="debug-buttons" style="margin-bottom: 20px; text-align: center;">
+      <button mat-button color="accent" (click)="testBackend()" style="margin-right: 10px;">
+        Test Backend
+      </button>
+      <button mat-button color="accent" (click)="testPost()" style="margin-right: 10px;">
+        Test POST
+      </button>
+      <button mat-button color="accent" (click)="testDatabase()">
+        Test Database
+      </button>
+    </div>  -->
+
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="login-form">
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Username</mat-label>
+        <input matInput formControlName="username" placeholder="Enter your username">
+        <mat-error *ngIf="loginForm.get('username')?.hasError('required')">
+          Username is required
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Password</mat-label>
+        <input matInput type="password" formControlName="password" placeholder="Enter your password">
+        <mat-error *ngIf="loginForm.get('password')?.hasError('required')">
+          Password is required
+        </mat-error>
+        <mat-error *ngIf="loginForm.get('password')?.hasError('minlength')">
+          Password must be at least 6 characters
+        </mat-error>
+      </mat-form-field>
+
+      <button 
+        mat-raised-button 
+        color="primary" 
+        type="submit" 
+        class="login-button full-width"
+        [disabled]="loginForm.invalid || loading">
+        <mat-spinner diameter="20" *ngIf="loading"></mat-spinner>
+        <span *ngIf="!loading">Sign In</span>
+      </button>
+    </form>
+
+    <div class="login-footer">
+      <p>Don't have an account? 
+        <a mat-button color="primary" (click)="goToRegister()">Register here</a>
+      </p>
+    </div>
+  </div>
+</div> 

@@ -1,0 +1,159 @@
+<div class="complaints-list-container">
+  <div class="page-header">
+    <h1>
+      <mat-icon>list</mat-icon>
+      All Complaints
+    </h1>
+    <p>Manage and respond to student complaints</p>
+  </div>
+
+  <!-- Filters and Actions -->
+  <mat-card class="filters-card">
+    <mat-card-content>
+      <div class="filters-row">
+        <div class="filter-group">
+          <mat-form-field appearance="outline">
+            <mat-label>Search</mat-label>
+            <input matInput [formControl]="searchFilter" placeholder="Search by student, title, or description...">
+            <mat-icon matSuffix>search</mat-icon>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Status</mat-label>
+            <mat-select [formControl]="statusFilter">
+              <mat-option *ngFor="let status of statusOptions" [value]="status.value">
+                {{ status.label }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+        <div class="action-group">
+          <button mat-button (click)="clearFilters()">
+            <mat-icon>clear</mat-icon>
+            Clear Filters
+          </button>
+          <button mat-raised-button color="accent" (click)="exportComplaints()">
+            <mat-icon>download</mat-icon>
+            Export
+          </button>
+        </div>
+      </div>
+
+      <div class="results-info">
+        <span>Showing {{ getFilteredCount() }} of {{ getTotalCount() }} complaints</span>
+      </div>
+    </mat-card-content>
+  </mat-card>
+
+  <!-- Loading State -->
+  <div *ngIf="loading" class="loading-container">
+    <mat-spinner></mat-spinner>
+    <p>Loading complaints...</p>
+  </div>
+
+  <!-- Complaints Table -->
+  <mat-card class="table-card" *ngIf="!loading">
+    <mat-card-content>
+      <div class="table-container">
+        <table mat-table [dataSource]="dataSource" matSort class="complaints-table">
+          <!-- Title Column -->
+          <ng-container matColumnDef="title">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Title</th>
+            <td mat-cell *matCellDef="let complaint">
+              <div class="title-cell">
+                <span class="complaint-title">{{ complaint.title }}</span>
+                <span class="complaint-preview">{{ complaint.description | slice:0:80 }}...</span>
+              </div>
+            </td>
+          </ng-container>
+
+          <!-- Student Column -->
+          <ng-container matColumnDef="student">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Student</th>
+            <td mat-cell *matCellDef="let complaint">
+              <div class="student-cell">
+                <mat-icon>person</mat-icon>
+                {{ getStudentName(complaint.etudiant?.id || 0) }}
+              </div>
+            </td>
+          </ng-container>
+
+          <!-- Status Column -->
+          <ng-container matColumnDef="status">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Status</th>
+            <td mat-cell *matCellDef="let complaint">
+              <mat-chip [color]="getStatusColor(complaint.status)" selected>
+                <mat-icon>{{ getStatusIcon(complaint.status) }}</mat-icon>
+                {{ complaint.status }}
+              </mat-chip>
+            </td>
+          </ng-container>
+
+          <!-- Created Date Column -->
+          <ng-container matColumnDef="createdAt">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Created</th>
+            <td mat-cell *matCellDef="let complaint">
+              <div class="date-cell">
+                <mat-icon>calendar_today</mat-icon>
+                {{ formatDate(complaint.createdAt || '') }}
+              </div>
+            </td>
+          </ng-container>
+
+          <!-- Subject Column -->
+          <ng-container matColumnDef="subject">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Subject</th>
+            <td mat-cell *matCellDef="let complaint">
+              <div class="subject-cell" *ngIf="complaint.matiere">
+                <mat-icon>book</mat-icon>
+                {{ complaint.matiere.nom }}
+              </div>
+              <span *ngIf="!complaint.matiere" class="no-subject">No subject</span>
+            </td>
+          </ng-container>
+
+          <!-- Actions Column -->
+          <ng-container matColumnDef="actions">
+            <th mat-header-cell *matHeaderCellDef>Actions</th>
+            <td mat-cell *matCellDef="let complaint">
+              <div class="action-buttons">
+                <button mat-icon-button (click)="viewComplaint(complaint)" matTooltip="View Details">
+                  <mat-icon>visibility</mat-icon>
+                </button>
+                <button mat-icon-button (click)="respondToComplaint(complaint)" 
+                        matTooltip="Add Response" 
+                        [disabled]="complaint.status === 'RESOLVED' || complaint.status === 'REJECTED'">
+                  <mat-icon>reply</mat-icon>
+                </button>
+              </div>
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"
+              [class.urgent-row]="isUrgentComplaint(row)"></tr>
+        </table>
+
+        <!-- No Data State -->
+        <div *ngIf="dataSource.filteredData.length === 0 && !loading" class="no-data">
+          <mat-icon>inbox</mat-icon>
+          <h3>No complaints found</h3>
+          <p *ngIf="hasActiveFilters()">
+            Try adjusting your filters to see more results.
+          </p>
+          <p *ngIf="hasNoActiveFilters()">
+            No complaints have been submitted yet.
+          </p>
+        </div>
+      </div>
+
+      <!-- Paginator -->
+      <mat-paginator 
+        [pageSizeOptions]="[10, 25, 50, 100]" 
+        [pageSize]="25"
+        showFirstLastButtons>
+      </mat-paginator>
+    </mat-card-content>
+  </mat-card>
+</div>

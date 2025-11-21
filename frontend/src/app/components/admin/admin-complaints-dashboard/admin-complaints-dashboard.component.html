@@ -1,0 +1,201 @@
+<div class="complaints-dashboard-container">
+  <div class="dashboard-header">
+    <h1>
+      <mat-icon>feedback</mat-icon>
+      Complaints Management
+    </h1>
+    <p>Monitor and manage student complaints</p>
+    
+    <div class="header-actions">
+      <button mat-raised-button color="primary" (click)="navigateToComplaintsList()">
+        <mat-icon>list</mat-icon>
+        View All Complaints
+      </button>
+    </div>
+  </div>
+
+  <div class="loading-container" *ngIf="loading">
+    <mat-spinner diameter="50"></mat-spinner>
+    <p>Loading complaints data...</p>
+  </div>
+
+  <div class="dashboard-content" *ngIf="!loading">
+    <!-- Statistics Cards -->
+    <div class="stats-grid">
+      <div class="dashboard-card total">
+        <div class="card-icon">
+          <mat-icon>feedback</mat-icon>
+        </div>
+        <div class="card-content">
+          <h2>{{ stats.total }}</h2>
+          <p>Total Complaints</p>
+        </div>
+      </div>
+
+      <div class="dashboard-card pending">
+        <div class="card-icon">
+          <mat-icon>schedule</mat-icon>
+        </div>
+        <div class="card-content">
+          <h2>{{ stats.pending }}</h2>
+          <p>Pending Review</p>
+          <div class="progress-bar">
+            <div class="progress-fill" [style.width.%]="getPendingPercentage()"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="dashboard-card reviewed">
+        <div class="card-icon">
+          <mat-icon>visibility</mat-icon>
+        </div>
+        <div class="card-content">
+          <h2>{{ stats.reviewed }}</h2>
+          <p>Under Review</p>
+        </div>
+      </div>
+
+      <div class="dashboard-card resolved">
+        <div class="card-icon">
+          <mat-icon>check_circle</mat-icon>
+        </div>
+        <div class="card-content">
+          <h2>{{ stats.resolved }}</h2>
+          <p>Resolved</p>
+        </div>
+      </div>
+
+      <div class="dashboard-card rejected">
+        <div class="card-icon">
+          <mat-icon>cancel</mat-icon>
+        </div>
+        <div class="card-content">
+          <h2>{{ stats.rejected }}</h2>
+          <p>Rejected</p>
+        </div>
+      </div>
+
+      <div class="dashboard-card resolution-rate">
+        <div class="card-icon">
+          <mat-icon>analytics</mat-icon>
+        </div>
+        <div class="card-content">
+          <h2>{{ getResolutionRate() | number:'1.1-1' }}%</h2>
+          <p>Resolution Rate</p>
+          <div class="progress-bar">
+            <div class="progress-fill success" [style.width.%]="getResolutionRate()"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Time-based Statistics -->
+    <div class="time-stats-grid">
+      <mat-card class="time-stat-card">
+        <mat-card-content>
+          <div class="time-stat">
+            <mat-icon>date_range</mat-icon>
+            <div class="time-stat-info">
+              <h3>{{ stats.thisWeek }}</h3>
+              <p>This Week</p>
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+
+      <mat-card class="time-stat-card">
+        <mat-card-content>
+          <div class="time-stat">
+            <mat-icon>calendar_month</mat-icon>
+            <div class="time-stat-info">
+              <h3>{{ stats.thisMonth }}</h3>
+              <p>This Month</p>
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+
+    <!-- Content Grid -->
+    <div class="content-grid">
+      <!-- Recent Complaints -->
+      <mat-card class="content-card">
+        <mat-card-header>
+          <mat-card-title>
+            <mat-icon>schedule</mat-icon>
+            Recent Complaints
+          </mat-card-title>
+          <div class="card-actions">
+            <button mat-button (click)="navigateToComplaintsList()">View All</button>
+          </div>
+        </mat-card-header>
+        <mat-card-content>
+          <div class="complaint-list" *ngIf="recentComplaints.length > 0">
+            <div class="complaint-item" *ngFor="let complaint of recentComplaints" 
+                 (click)="navigateToComplaintDetail(complaint)">
+              <div class="complaint-status">
+                <mat-icon [style.color]="getStatusColor(complaint.status)">
+                  {{ getStatusIcon(complaint.status) }}
+                </mat-icon>
+              </div>
+              <div class="complaint-info">
+                <div class="complaint-title">{{ complaint.title }}</div>
+                <div class="complaint-meta">
+                  <span class="student-name">{{ getStudentName(complaint.etudiant?.id || 0) }}</span>
+                  <span class="complaint-date">{{ formatDate(complaint.createdAt || '') }}</span>
+                </div>
+              </div>
+              <div class="complaint-status-badge">
+                <mat-chip [style.background-color]="getStatusColor(complaint.status)" 
+                         [style.color]="'white'">
+                  {{ complaint.status }}
+                </mat-chip>
+              </div>
+            </div>
+          </div>
+          <div *ngIf="recentComplaints.length === 0" class="no-data">
+            <mat-icon>info</mat-icon>
+            <p>No recent complaints</p>
+          </div>
+        </mat-card-content>
+      </mat-card>
+
+      <!-- Urgent Complaints -->
+      <mat-card class="content-card urgent">
+        <mat-card-header>
+          <mat-card-title>
+            <mat-icon>priority_high</mat-icon>
+            Urgent Complaints
+            <mat-chip class="urgent-badge" *ngIf="urgentComplaints.length > 0">
+              {{ urgentComplaints.length }}
+            </mat-chip>
+          </mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <div class="complaint-list" *ngIf="urgentComplaints.length > 0">
+            <div class="complaint-item urgent-item" *ngFor="let complaint of urgentComplaints"
+                 (click)="navigateToComplaintDetail(complaint)">
+              <div class="complaint-status">
+                <mat-icon class="urgent-icon">warning</mat-icon>
+              </div>
+              <div class="complaint-info">
+                <div class="complaint-title">{{ complaint.title }}</div>
+                <div class="complaint-meta">
+                  <span class="student-name">{{ getStudentName(complaint.etudiant?.id || 0) }}</span>
+                  <span class="complaint-date">{{ formatDate(complaint.createdAt || '') }}</span>
+                </div>
+              </div>
+              <div class="days-pending">
+                {{ getDaysSinceCreated(complaint.createdAt || '') }} days
+              </div>
+            </div>
+          </div>
+          <div *ngIf="urgentComplaints.length === 0" class="no-data">
+            <mat-icon>check_circle</mat-icon>
+            <p>No urgent complaints</p>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+</div>

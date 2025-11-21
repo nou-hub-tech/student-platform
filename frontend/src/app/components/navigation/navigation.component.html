@@ -1,0 +1,97 @@
+<mat-toolbar color="primary" class="navigation-toolbar">
+  <div class="toolbar-content">
+    <div class="toolbar-left">
+      <mat-icon class="toolbar-icon">school</mat-icon>
+      <span class="toolbar-title">Student Management</span>
+    </div>
+
+    <div class="toolbar-center">
+      <nav class="nav-links">
+        <!-- Admin Navigation -->
+        <a mat-button routerLink="/dashboard" routerLinkActive="active" *ngIf="isAdmin()">
+          <mat-icon>dashboard</mat-icon>
+          Dashboard
+        </a>
+
+        <a mat-button routerLink="/students" routerLinkActive="active" *ngIf="isAdmin()">
+          <mat-icon>people</mat-icon>
+          Students
+        </a>
+
+        <a mat-button routerLink="/subjects" routerLinkActive="active" *ngIf="isAdmin()">
+          <mat-icon>book</mat-icon>
+          Subjects
+        </a>
+
+        <a mat-button routerLink="/grades" routerLinkActive="active" *ngIf="isAdmin()">
+          <mat-icon>grade</mat-icon>
+          Grades
+        </a>
+
+        <a mat-button routerLink="/admin/complaints" routerLinkActive="active" *ngIf="isAdmin()">
+          <mat-icon>feedback</mat-icon>
+          Complaints
+        </a>
+
+        <a mat-button routerLink="/admin/exams" routerLinkActive="active" *ngIf="isAdmin()">
+          <mat-icon>event</mat-icon>
+          Exams
+        </a>
+
+        <!-- Student Navigation -->
+        <a mat-button routerLink="/my-grades" routerLinkActive="active" *ngIf="isStudent()">
+          <mat-icon>grade</mat-icon>
+          My Grades
+        </a>
+
+        <a mat-button routerLink="/my-subjects" routerLinkActive="active" *ngIf="isStudent()">
+          <mat-icon>book</mat-icon>
+          Subjects
+        </a>
+
+        <a mat-button routerLink="/my-complaints" routerLinkActive="active" *ngIf="isStudent()">
+          <mat-icon>feedback</mat-icon>
+          Complaints
+        </a>
+
+        <a mat-button routerLink="/my-calendar" routerLinkActive="active" *ngIf="isStudent()">
+          <mat-icon>calendar_today</mat-icon>
+          Calendar
+        </a>
+        
+        <a mat-button routerLink="/chatbot" routerLinkActive="active" *ngIf="isStudent()">
+          <mat-icon>chat</mat-icon>
+          Performance Insights
+        </a>
+      </nav>
+    </div>
+
+    <div class="toolbar-right">
+      <button mat-icon-button [matMenuTriggerFor]="userMenu" class="user-menu-button">
+        <mat-icon>account_circle</mat-icon>
+      </button>
+      
+      <mat-menu #userMenu="matMenu" class="user-menu">
+        <div class="user-menu-header">
+          <mat-icon>account_circle</mat-icon>
+          <div class="user-info">
+            <div class="user-name">{{ currentUser?.username }}</div>
+            <div class="user-role">{{ currentUser?.role === 'ROLE_ADMIN' ? 'Administrator' : 'Student' }}</div>
+          </div>
+        </div>
+        
+        <mat-divider></mat-divider>
+        
+        <button mat-menu-item routerLink="/profile">
+          <mat-icon>person</mat-icon>
+          <span>Profile</span>
+        </button>
+        
+        <button mat-menu-item (click)="logout()">
+          <mat-icon>logout</mat-icon>
+          <span>Logout</span>
+        </button>
+      </mat-menu>
+    </div>
+  </div>
+</mat-toolbar>

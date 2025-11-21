@@ -1,0 +1,152 @@
+<div class="complaint-detail-dialog">
+    <div #pdfContent id="pdfContent" class="complaint-content">
+
+    <h2 mat-dialog-title>
+    <mat-icon>feedback</mat-icon>
+    Complaint Details
+    <mat-chip class="urgent-chip" *ngIf="isUrgent()">
+      <mat-icon>priority_high</mat-icon>
+      URGENT
+    </mat-chip>
+  </h2>
+
+  <mat-dialog-content>
+    <div class="complaint-content">
+      <!-- Header Information -->
+      <div class="complaint-header">
+        <div class="header-row">
+          <div class="complaint-title">
+            <h3>{{ complaint.title }}</h3>
+          </div>
+          <div class="status-section">
+            <mat-chip [style.background-color]="getStatusInfo(complaint.status).color" 
+                     [style.color]="'white'">
+              <mat-icon>{{ getStatusInfo(complaint.status).icon }}</mat-icon>
+              {{ getStatusInfo(complaint.status).label }}
+            </mat-chip>
+          </div>
+        </div>
+
+        <div class="meta-info">
+          <div class="meta-item">
+            <mat-icon>person</mat-icon>
+            <span class="label">Student:</span>
+            <span class="value">{{ student?.prenom }} {{ student?.nom }}</span>
+          </div>
+          <div class="meta-item">
+            <mat-icon>email</mat-icon>
+            <span class="label">Email:</span>
+            <span class="value">{{ student?.email }}</span>
+          </div>
+          <div class="meta-item">
+            <mat-icon>calendar_today</mat-icon>
+            <span class="label">Submitted:</span>
+            <span class="value">{{ formatDate(complaint.createdAt || '') }}</span>
+          </div>
+          <div class="meta-item">
+            <mat-icon>schedule</mat-icon>
+            <span class="label">Time ago:</span>
+            <span class="value">{{ getTimeSinceCreated() }}</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Related Information -->
+      <div class="related-info" *ngIf="complaint.matiere || complaint.note">
+        <h4>Related Information</h4>
+        <div class="related-grid">
+          <div class="related-item" *ngIf="complaint.matiere">
+            <mat-icon>book</mat-icon>
+            <div class="related-content">
+              <span class="related-label">Subject:</span>
+              <span class="related-value">{{ complaint.matiere.nom }}</span>
+              <span class="related-detail">Coefficient: {{ complaint.matiere.coefficient }}</span>
+            </div>
+          </div>
+          <div class="related-item" *ngIf="complaint.note">
+            <mat-icon>grade</mat-icon>
+            <div class="related-content">
+              <span class="related-label">Grade:</span>
+              <span class="related-value">{{ complaint.note.valeur }}/20</span>
+              <span class="related-detail">{{ complaint.note.matiere?.nom }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Description -->
+      <div class="description-section">
+        <h4>Description</h4>
+        <div class="description-content">
+          {{ complaint.description }}
+        </div>
+      </div>
+
+      <!-- Admin Response -->
+      <div class="response-section" *ngIf="complaint.adminResponse">
+        <h4>Administrative Response</h4>
+        <div class="response-content">
+          {{ complaint.adminResponse }}
+        </div>
+        <div class="response-meta">
+          <mat-icon>schedule</mat-icon>
+          <span>Updated: {{ formatDate(complaint.updatedAt || '') }}</span>
+        </div>
+      </div>
+
+      <!-- Status Update Section -->
+      <div class="status-update-section">
+        <h4>Update Status</h4>
+        <div class="status-buttons">
+          <button mat-raised-button 
+                  *ngFor="let status of statusOptions"
+                  [disabled]="complaint.status === status.value || loading"
+                  (click)="updateStatus(status.value)"
+                  class="status-button">
+            <mat-icon>{{ status.icon }}</mat-icon>
+            {{ status.label }}
+          </button>
+        </div>
+      </div>
+
+      <!-- Timeline -->
+      <div class="timeline-section">
+        <h4>Timeline</h4>
+        <div class="timeline">
+          <div class="timeline-item">
+            <div class="timeline-icon created">
+              <mat-icon>add_circle</mat-icon>
+            </div>
+            <div class="timeline-content">
+              <div class="timeline-title">Complaint Submitted</div>
+              <div class="timeline-date">{{ formatDate(complaint.createdAt || '') }}</div>
+            </div>
+          </div>
+          
+          <div class="timeline-item" *ngIf="complaint.updatedAt && complaint.updatedAt !== complaint.createdAt">
+            <div class="timeline-icon updated">
+              <mat-icon>update</mat-icon>
+            </div>
+            <div class="timeline-content">
+              <div class="timeline-title">Last Updated</div>
+              <div class="timeline-date">{{ formatDate(complaint.updatedAt || '') }}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </mat-dialog-content>
+    </div>
+  <mat-dialog-actions align="end">
+    <button mat-button (click)="onCancel()">Close</button>
+    <button mat-raised-button color="primary" (click)="onClose()">
+      <mat-spinner *ngIf="loading" diameter="20" class="button-spinner"></mat-spinner>
+      Done
+    </button>
+      <button mat-raised-button color="accent" (click)="exportToPDF()">
+          <mat-icon>download</mat-icon> Export to PDF
+      </button>
+
+  </mat-dialog-actions>
+
+</div>

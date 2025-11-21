@@ -1,0 +1,29 @@
+# IDE / outils
+.idea/
+.vscode/
+*.iml
+
+# Node / Angular (frontend)
+frontend/node_modules/
+frontend/dist/
+frontend/.angular/
+frontend/*.log
+frontend/.env
+
+# Java / Spring Boot (backend)
+backend/target/
+backend/*.log
+backend/.env
+backend/application-*.yml
+
+# Python (rag-service)
+RAG_Microservice/__pycache__/
+RAG_Microservice/venv/
+RAG_Microservice/.env
+RAG_Microservice/*.log
+
+# Génériques
+*.log
+*.env
+.DS_Store
+Thumbs.db

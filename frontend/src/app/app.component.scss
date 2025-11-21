@@ -1,0 +1,21 @@
+.app-container {
+  @apply flex flex-col min-h-screen bg-background;
+}
+
+.main-content {
+  @apply flex-1 pt-16; /* Adjusted for fixed navbar */
+  min-height: calc(100vh - 64px);
+  transition: all 0.3s ease;
+}
+
+/* Styling when sidenav is open */
+.sidenav-open .main-content {
+  @apply md:ml-64; /* Width of sidebar */
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .main-content {
+    @apply pt-14;
+  }
+}

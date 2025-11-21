@@ -1,0 +1,55 @@
+<div class="dialog-container">
+  <h2 mat-dialog-title>
+    <mat-icon>{{ isEditMode ? 'edit' : 'book' }}</mat-icon>
+    {{ isEditMode ? 'Edit Subject' : 'Add Subject' }}
+  </h2>
+
+  <mat-dialog-content>
+    <form [formGroup]="subjectForm" class="subject-form">
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Subject Name</mat-label>
+        <input matInput formControlName="nom" placeholder="Enter subject name">
+        <mat-error *ngIf="subjectForm.get('nom')?.invalid && subjectForm.get('nom')?.touched">
+          {{ getErrorMessage('nom') }}
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Coefficient (1-10)</mat-label>
+        <input 
+          matInput 
+          formControlName="coefficient" 
+          type="number" 
+          min="1" 
+          max="10" 
+          placeholder="Enter coefficient">
+        <mat-hint>Coefficient determines the weight of this subject in grade calculations</mat-hint>
+        <mat-error *ngIf="subjectForm.get('coefficient')?.invalid && subjectForm.get('coefficient')?.touched">
+          {{ getErrorMessage('coefficient') }}
+        </mat-error>
+      </mat-form-field>
+
+      <div class="coefficient-preview" *ngIf="subjectForm.get('coefficient')?.value">
+        <mat-icon>info</mat-icon>
+        <span class="preview-text">Coefficient Preview:</span>
+        <span class="coefficient-badge" [ngClass]="getCoefficientClass(subjectForm.get('coefficient')?.value)">
+          {{ subjectForm.get('coefficient')?.value }}
+        </span>
+      </div>
+    </form>
+  </mat-dialog-content>
+
+  <mat-dialog-actions align="end">
+    <button mat-button (click)="onCancel()" [disabled]="isLoading">
+      Cancel
+    </button>
+    <button 
+      mat-raised-button 
+      color="primary" 
+      (click)="onSubmit()" 
+      [disabled]="subjectForm.invalid || isLoading">
+      <mat-spinner diameter="20" *ngIf="isLoading"></mat-spinner>
+      <span *ngIf="!isLoading">{{ isEditMode ? 'Update' : 'Create' }}</span>
+    </button>
+  </mat-dialog-actions>
+</div>

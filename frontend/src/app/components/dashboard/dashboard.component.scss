@@ -1,0 +1,165 @@
+.dashboard-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.dashboard-header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.dashboard-header h1 {
+  margin: 0 0 8px 0;
+  color: var(--text-primary);
+  font-size: 32px;
+  font-weight: 500;
+}
+
+.dashboard-header p {
+  margin: 0;
+  color: var(--text-secondary);
+  font-size: 16px;
+}
+
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 20px;
+}
+
+.loading-container p {
+  margin-top: 16px;
+  color: var(--text-secondary);
+}
+
+.dashboard-content {
+  animation: fadeIn 0.5s ease-in;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+  margin-bottom: 40px;
+}
+
+.content-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  gap: 20px;
+}
+
+.content-card {
+  height: fit-content;
+}
+
+.content-card mat-card-header {
+  padding-bottom: 16px;
+}
+
+.content-card mat-card-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 18px;
+  font-weight: 500;
+}
+
+.content-card mat-card-title mat-icon {
+  color: var(--primary-color);
+}
+
+.student-list, .grade-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.student-item, .grade-item {
+  display: flex;
+  align-items: center;
+  padding: 12px;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  transition: background-color 0.2s ease;
+}
+
+.student-item:hover, .grade-item:hover {
+  background-color: #e9ecef;
+}
+
+.student-rank {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  background-color: var(--primary-color);
+  color: white;
+  border-radius: 50%;
+  font-weight: 500;
+  margin-right: 12px;
+  font-size: 14px;
+}
+
+.student-info, .grade-info {
+  flex: 1;
+}
+
+.student-name, .grade-student {
+  font-weight: 500;
+  color: var(--text-primary);
+  margin-bottom: 4px;
+}
+
+.student-average, .grade-subject {
+  font-size: 14px;
+  color: var(--text-secondary);
+}
+
+.grade-value {
+  font-weight: 500;
+  color: var(--primary-color);
+  font-size: 18px;
+}
+
+.no-data {
+  text-align: center;
+  color: var(--text-secondary);
+  font-style: italic;
+  padding: 20px;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 768px) {
+  .dashboard-container {
+    padding: 10px;
+  }
+  
+  .dashboard-header h1 {
+    font-size: 24px;
+  }
+  
+  .stats-grid {
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px;
+  }
+  
+  .content-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+} 

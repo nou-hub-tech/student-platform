@@ -1,0 +1,72 @@
+<div class="dialog-container">
+  <h2 mat-dialog-title>
+    <mat-icon>{{ isEditMode ? 'edit' : 'grade' }}</mat-icon>
+    {{ isEditMode ? 'Edit Grade' : 'Add Grade' }}
+  </h2>
+
+  <mat-dialog-content>
+    <form [formGroup]="gradeForm" class="grade-form">
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Student</mat-label>
+        <mat-select formControlName="etudiantId" placeholder="Select a student">
+          <mat-option *ngFor="let student of data.students" [value]="student.id">
+            {{ student.prenom }} {{ student.nom }}
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="gradeForm.get('etudiantId')?.invalid && gradeForm.get('etudiantId')?.touched">
+          {{ getErrorMessage('etudiantId') }}
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Subject</mat-label>
+        <mat-select formControlName="matiereId" placeholder="Select a subject">
+          <mat-option *ngFor="let subject of data.subjects" [value]="subject.id">
+            {{ subject.nom }} (Coefficient: {{ subject.coefficient }})
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="gradeForm.get('matiereId')?.invalid && gradeForm.get('matiereId')?.touched">
+          {{ getErrorMessage('matiereId') }}
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Grade (0-20)</mat-label>
+        <input 
+          matInput 
+          formControlName="valeur" 
+          type="number" 
+          min="0" 
+          max="20" 
+          step="0.5"
+          placeholder="Enter grade">
+        <mat-hint>Enter a grade between 0 and 20</mat-hint>
+        <mat-error *ngIf="gradeForm.get('valeur')?.invalid && gradeForm.get('valeur')?.touched">
+          {{ getErrorMessage('valeur') }}
+        </mat-error>
+      </mat-form-field>
+
+      <div class="grade-preview" *ngIf="gradeForm.get('valeur')?.value">
+        <mat-icon>grade</mat-icon>
+        <span class="preview-text">Grade Preview:</span>
+        <span class="grade-value" [ngClass]="getGradeClass(gradeForm.get('valeur')?.value)">
+          {{ gradeForm.get('valeur')?.value }}/20
+        </span>
+      </div>
+    </form>
+  </mat-dialog-content>
+
+  <mat-dialog-actions align="end">
+    <button mat-button (click)="onCancel()" [disabled]="isLoading">
+      Cancel
+    </button>
+    <button 
+      mat-raised-button 
+      color="primary" 
+      (click)="onSubmit()" 
+      [disabled]="gradeForm.invalid || isLoading">
+      <mat-spinner diameter="20" *ngIf="isLoading"></mat-spinner>
+      <span *ngIf="!isLoading">{{ isEditMode ? 'Update' : 'Create' }}</span>
+    </button>
+  </mat-dialog-actions>
+</div>

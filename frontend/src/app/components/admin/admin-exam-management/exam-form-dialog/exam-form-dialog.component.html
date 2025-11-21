@@ -1,0 +1,89 @@
+<div class="exam-form-dialog">
+  <h2 mat-dialog-title>{{ data.exam ? 'Edit Exam' : 'Create New Exam' }}</h2>
+  
+  <form [formGroup]="examForm" (ngSubmit)="onSubmit()">
+    <mat-dialog-content>
+      <div class="form-row">
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Title</mat-label>
+          <input matInput formControlName="title" placeholder="Enter exam title">
+          <mat-error *ngIf="examForm.get('title')?.hasError('required')">
+            Title is required
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <div class="form-row">
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Subject</mat-label>
+          <mat-select formControlName="subjectId">
+            <mat-option *ngFor="let subject of subjects" [value]="subject.id">
+              {{ subject.nom }}
+            </mat-option>
+          </mat-select>
+          <mat-error *ngIf="examForm.get('subjectId')?.hasError('required')">
+            Subject is required
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <div class="form-row">
+        <mat-form-field appearance="outline" class="half-width">
+          <mat-label>Date</mat-label>
+          <input matInput [matDatepicker]="picker" formControlName="date" placeholder="Choose a date">
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+          <mat-error *ngIf="examForm.get('date')?.hasError('required')">
+            Date is required
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="half-width">
+          <mat-label>Location</mat-label>
+          <input matInput formControlName="location" placeholder="Enter location">
+          <mat-error *ngIf="examForm.get('location')?.hasError('required')">
+            Location is required
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <div class="form-row">
+        <mat-form-field appearance="outline" class="half-width">
+          <mat-label>Start Time</mat-label>
+          <input matInput type="time" formControlName="startTime">
+          <mat-error *ngIf="examForm.get('startTime')?.hasError('required')">
+            Start time is required
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="half-width">
+          <mat-label>End Time</mat-label>
+          <input matInput type="time" formControlName="endTime">
+          <mat-error *ngIf="examForm.get('endTime')?.hasError('required')">
+            End time is required
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <div class="form-row">
+        <h3>Select Students</h3>
+        <div class="students-list">
+          <mat-checkbox 
+            *ngFor="let student of students" 
+            [checked]="isStudentSelected(student.id)"
+            (change)="toggleStudent(student.id)"
+            class="student-checkbox">
+            {{ student.nom }} {{ student.prenom }}
+          </mat-checkbox>
+        </div>
+      </div>
+    </mat-dialog-content>
+
+    <mat-dialog-actions align="end">
+      <button mat-button type="button" (click)="onCancel()">Cancel</button>
+      <button mat-raised-button color="primary" type="submit" [disabled]="examForm.invalid">
+        {{ data.exam ? 'Update' : 'Create' }}
+      </button>
+    </mat-dialog-actions>
+  </form>
+</div> 

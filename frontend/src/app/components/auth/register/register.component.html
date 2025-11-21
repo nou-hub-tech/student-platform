@@ -1,0 +1,104 @@
+<div class="register-container">
+    <div class="register-card">
+        <div class="register-header">
+            <mat-icon class="register-icon">person_add</mat-icon>
+            <h1>Create Account</h1>
+            <p>Join the Student Management System</p>
+        </div>
+
+        <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="register-form">
+            <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Username</mat-label>
+                <input matInput formControlName="username" placeholder="Enter your username">
+                <mat-error *ngIf="registerForm.get('username')?.hasError('required')">
+                    Username is required
+                </mat-error>
+                <mat-error *ngIf="registerForm.get('username')?.hasError('minlength')">
+                    Username must be at least 3 characters
+                </mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="full-width">
+                <mat-label>First Name</mat-label>
+                <input matInput formControlName="firstName" placeholder="Enter your first name">
+                <mat-error *ngIf="registerForm.get('firstName')?.hasError('required')">
+                    First name is required
+                </mat-error>
+                <mat-error *ngIf="registerForm.get('firstName')?.hasError('minlength')">
+                    First name must be at least 2 characters
+                </mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Last Name</mat-label>
+                <input matInput formControlName="lastName" placeholder="Enter your last name">
+                <mat-error *ngIf="registerForm.get('lastName')?.hasError('required')">
+                    Last name is required
+                </mat-error>
+                <mat-error *ngIf="registerForm.get('lastName')?.hasError('minlength')">
+                    Last name must be at least 2 characters
+                </mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Email</mat-label>
+                <input matInput type="email" formControlName="email" placeholder="Enter your email">
+                <mat-error *ngIf="registerForm.get('email')?.hasError('required')">
+                    Email is required
+                </mat-error>
+                <mat-error *ngIf="registerForm.get('email')?.hasError('email')">
+                    Please enter a valid email
+                </mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Password</mat-label>
+                <input matInput type="password" formControlName="password" placeholder="Enter your password">
+                <mat-error *ngIf="registerForm.get('password')?.hasError('required')">
+                    Password is required
+                </mat-error>
+                <mat-error *ngIf="registerForm.get('password')?.hasError('minlength')">
+                    Password must be at least 6 characters
+                </mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Confirm Password</mat-label>
+                <input matInput type="password" formControlName="confirmPassword" placeholder="Confirm your password">
+                <mat-error *ngIf="registerForm.get('confirmPassword')?.hasError('required')">
+                    Please confirm your password
+                </mat-error>
+                <mat-error *ngIf="registerForm.hasError('passwordMismatch')">
+                    Passwords do not match
+                </mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Role</mat-label>
+                <mat-select formControlName="role">
+                    <mat-option value="ROLE_STUDENT">Student</mat-option>
+                    <mat-option value="ROLE_ADMIN">Administrator</mat-option>
+                </mat-select>
+                <mat-error *ngIf="registerForm.get('role')?.hasError('required')">
+                    Please select a role
+                </mat-error>
+            </mat-form-field>
+
+            <button
+                    mat-raised-button
+                    color="primary"
+                    type="submit"
+                    class="register-button full-width"
+                    [disabled]="registerForm.invalid || loading">
+                <mat-spinner diameter="20" *ngIf="loading"></mat-spinner>
+                <span *ngIf="!loading">Create Account</span>
+            </button>
+        </form>
+
+        <div class="register-footer">
+            <p>Already have an account?
+                <a mat-button color="primary" (click)="goToLogin()">Sign in here</a>
+            </p>
+        </div>
+    </div>
+</div>

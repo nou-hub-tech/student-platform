@@ -1,0 +1,146 @@
+.subject-list-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.subject-list-header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.subject-list-header h1 {
+  margin: 0 0 8px 0;
+  color: var(--text-primary);
+  font-size: 32px;
+  font-weight: 500;
+}
+
+.subject-list-header p {
+  margin: 0;
+  color: var(--text-secondary);
+  font-size: 16px;
+}
+
+.table-controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  gap: 16px;
+}
+
+.table-controls mat-form-field {
+  flex: 1;
+  max-width: 300px;
+}
+
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 20px;
+}
+
+.loading-container p {
+  margin-top: 16px;
+  color: var(--text-secondary);
+}
+
+.table-container {
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+}
+
+.mat-column-actions {
+  width: 120px;
+  text-align: center;
+}
+
+.subject-name {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 500;
+}
+
+.subject-icon {
+  color: var(--accent-color);
+  font-size: 18px;
+  width: 18px;
+  height: 18px;
+}
+
+.coefficient-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 32px;
+  height: 24px;
+  padding: 0 8px;
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: 12px;
+  
+  &.high-coefficient {
+    background-color: #ffebee;
+    color: #c62828;
+    border: 1px solid #ffcdd2;
+  }
+  
+  &.medium-coefficient {
+    background-color: #fff3e0;
+    color: #ef6c00;
+    border: 1px solid #ffcc02;
+  }
+  
+  &.low-coefficient {
+    background-color: #e8f5e8;
+    color: #2e7d32;
+    border: 1px solid #c8e6c9;
+  }
+}
+
+.action-buttons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 4px;
+
+  button {
+    mat-icon {
+      font-size: 1.1rem;
+      width: 1.1rem;
+      height: 1.1rem;
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .subject-list-container {
+    padding: 10px;
+  }
+  
+  .subject-list-header h1 {
+    font-size: 24px;
+  }
+  
+  .table-controls {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .table-controls mat-form-field {
+    max-width: none;
+  }
+  
+  .subject-name {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+  }
+}

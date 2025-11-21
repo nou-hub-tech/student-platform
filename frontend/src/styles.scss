@@ -1,0 +1,160 @@
+/* First, load Angular Material */
+@use '@angular/material' as mat;
+
+/* Tailwind CSS */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* You can add global styles to this file, and also import other style files */
+
+html, body { height: 100%; }
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  @apply bg-background text-text-primary;
+}
+
+/* Custom theme colors */
+:root {
+  --primary-color: #3f51b5;
+  --accent-color: #ff4081;
+  --warn-color: #f44336;
+  --success-color: #4caf50;
+  --background-color: #fafafa;
+  --surface-color: #ffffff;
+  --text-primary: #212121;
+  --text-secondary: #757575;
+}
+
+/* Global utility classes */
+.full-width {
+  width: 100%;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.mt-20 {
+  margin-top: 20px;
+}
+
+.mb-20 {
+  margin-bottom: 20px;
+}
+
+.p-20 {
+  padding: 20px;
+}
+
+/* Card styles */
+.mat-card {
+  @apply rounded-xl shadow-soft transition-shadow duration-300 ease-in-out;
+}
+
+.mat-card:hover {
+  @apply shadow-hover;
+}
+
+/* Button styles */
+button.mat-raised-button.mat-primary,
+button.mat-flat-button.mat-primary {
+  @apply transition-all duration-200 ease-in-out;
+}
+
+button.mat-raised-button.mat-primary:hover,
+button.mat-flat-button.mat-primary:hover {
+  @apply shadow-hover scale-[1.02];
+}
+
+/* Modern form field styling */
+.mat-form-field-appearance-outline .mat-form-field-outline {
+  @apply rounded-lg transition-colors duration-200;
+}
+
+/* Transitions for elements */
+.transition-element {
+  @apply transition-all duration-300 ease-in-out;
+}
+
+/* Page transitions */
+.page-container {
+  @apply animate-fade-in;
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-gray-100 rounded-full;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-gray-300 rounded-full hover:bg-gray-400 transition-colors duration-200;
+}
+
+/* Table styles */
+.mat-table {
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.mat-header-row {
+  background-color: var(--primary-color);
+  color: white;
+}
+
+.mat-header-cell {
+  color: white !important;
+  font-weight: 500 !important;
+}
+
+/* Navigation styles */
+.mat-toolbar {
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Dashboard cards */
+.dashboard-card {
+  background: linear-gradient(135deg, var(--primary-color), #5c6bc0);
+  color: white;
+  border-radius: 12px;
+  padding: 24px;
+  margin: 16px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.dashboard-card h2 {
+  margin: 0 0 8px 0;
+  font-size: 24px;
+  font-weight: 500;
+}
+
+.dashboard-card p {
+  margin: 0;
+  font-size: 36px;
+  font-weight: 300;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .mat-card {
+    margin: 8px;
+  }
+  
+  .dashboard-card {
+    margin: 8px;
+    padding: 16px;
+  }
+  
+  .dashboard-card h2 {
+    font-size: 20px;
+  }
+  
+  .dashboard-card p {
+    font-size: 28px;
+  }
+}

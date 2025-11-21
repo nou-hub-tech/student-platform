@@ -1,0 +1,135 @@
+<div class="student-detail-container">
+  <!-- Header -->
+  <div class="detail-header">
+    <button mat-icon-button (click)="goBack()" class="back-button">
+      <mat-icon>arrow_back</mat-icon>
+    </button>
+    <h1>Student Details</h1>
+  </div>
+
+  <!-- Loading State -->
+  <div class="loading-container" *ngIf="loading">
+    <mat-spinner diameter="50"></mat-spinner>
+    <p>Loading student details...</p>
+  </div>
+
+  <!-- Student Information -->
+  <div class="student-content" *ngIf="!loading && student">
+    <!-- Student Info Card -->
+    <mat-card class="student-info-card">
+      <mat-card-header>
+        <mat-card-title>
+          <mat-icon>person</mat-icon>
+          Student Information
+        </mat-card-title>
+        <div class="header-actions">
+          <button mat-icon-button color="accent" (click)="editStudent()" matTooltip="Edit Student">
+            <mat-icon>edit</mat-icon>
+          </button>
+        </div>
+      </mat-card-header>
+      
+      <mat-card-content>
+        <div class="student-details">
+          <div class="detail-item">
+            <mat-icon>badge</mat-icon>
+            <div class="detail-content">
+              <span class="label">ID:</span>
+              <span class="value">{{ student.id }}</span>
+            </div>
+          </div>
+          
+          <div class="detail-item">
+            <mat-icon>person</mat-icon>
+            <div class="detail-content">
+              <span class="label">Name:</span>
+              <span class="value">{{ student.prenom }} {{ student.nom }}</span>
+            </div>
+          </div>
+          
+          <div class="detail-item">
+            <mat-icon>email</mat-icon>
+            <div class="detail-content">
+              <span class="label">Email:</span>
+              <span class="value">{{ student.email }}</span>
+            </div>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <!-- Average Card -->
+    <mat-card class="average-card">
+      <mat-card-content>
+        <div class="average-display">
+          <mat-icon>trending_up</mat-icon>
+          <div class="average-content">
+            <span class="average-label">Overall Average</span>
+            <span class="average-value" [ngClass]="getAverageClass()">
+              {{ average | number:'1.2-2' }}/20
+            </span>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <!-- Grades Section -->
+    <mat-card class="grades-card">
+      <mat-card-header>
+        <mat-card-title>
+          <mat-icon>grade</mat-icon>
+          Grades ({{ grades.length }})
+        </mat-card-title>
+        <div class="header-actions">
+          <button mat-raised-button color="primary" (click)="addGrade()">
+            <mat-icon>add</mat-icon>
+            Add Grade
+          </button>
+        </div>
+      </mat-card-header>
+      
+      <mat-card-content>
+        <!-- Grades Loading -->
+        <div class="loading-container" *ngIf="gradesLoading">
+          <mat-spinner diameter="30"></mat-spinner>
+          <p>Loading grades...</p>
+        </div>
+
+        <!-- No Grades -->
+        <div class="no-grades" *ngIf="!gradesLoading && grades.length === 0">
+          <mat-icon>grade</mat-icon>
+          <h3>No grades yet</h3>
+          <p>This student doesn't have any grades recorded.</p>
+          <button mat-raised-button color="primary" (click)="addGrade()">
+            <mat-icon>add</mat-icon>
+            Add First Grade
+          </button>
+        </div>
+
+        <!-- Grades List -->
+        <div class="grades-list" *ngIf="!gradesLoading && grades.length > 0">
+          <div class="grade-item" *ngFor="let grade of grades">
+            <div class="grade-info">
+              <div class="subject-name">
+                <mat-icon>book</mat-icon>
+                {{ grade.matiere?.nom || 'Unknown Subject' }}
+                <span class="coefficient">(Coeff: {{ grade.matiere?.coefficient || 1 }})</span>
+              </div>
+              <div class="grade-value" [ngClass]="getGradeClass(grade.valeur)">
+                {{ grade.valeur }}/20
+              </div>
+            </div>
+            <div class="grade-actions">
+              <button mat-icon-button color="accent" (click)="editGrade(grade)" matTooltip="Edit">
+                <mat-icon>edit</mat-icon>
+              </button>
+              <button mat-icon-button color="warn" (click)="deleteGrade(grade)" matTooltip="Delete">
+                <mat-icon>delete</mat-icon>
+              </button>
+            </div>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

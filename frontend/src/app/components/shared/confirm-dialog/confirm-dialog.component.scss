@@ -1,0 +1,29 @@
+.confirm-dialog {
+  min-width: 300px;
+  max-width: 400px;
+}
+
+h2[mat-dialog-title] {
+  margin: 0;
+  padding: 0;
+}
+
+mat-dialog-content {
+  p {
+    margin: 16px 0;
+    line-height: 1.5;
+  }
+}
+
+mat-dialog-actions {
+  padding: 16px 0 0 0;
+  margin: 0;
+  
+  button {
+    margin-left: 8px;
+    
+    &:first-child {
+      margin-left: 0;
+    }
+  }
+}

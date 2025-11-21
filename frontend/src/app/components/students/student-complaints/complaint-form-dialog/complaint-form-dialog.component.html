@@ -1,0 +1,98 @@
+<div class="complaint-dialog">
+  <h2 mat-dialog-title>
+    <mat-icon>feedback</mat-icon>
+    Submit Grade Complaint
+  </h2>
+
+  <mat-dialog-content>
+    <form [formGroup]="complaintForm" class="complaint-form">
+      <!-- Title Field -->
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Complaint Title</mat-label>
+        <input matInput formControlName="title" placeholder="Brief description of your concern">
+        <mat-icon matSuffix>title</mat-icon>
+        <mat-error *ngIf="complaintForm.get('title')?.hasError('required')">
+          Title is required
+        </mat-error>
+        <mat-error *ngIf="complaintForm.get('title')?.hasError('minlength')">
+          Title must be at least 5 characters long
+        </mat-error>
+      </mat-form-field>
+
+      <!-- Description Field -->
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Detailed Description</mat-label>
+        <textarea 
+          matInput 
+          formControlName="description" 
+          rows="4"
+          placeholder="Please provide a detailed explanation of your complaint...">
+        </textarea>
+        <mat-icon matSuffix>description</mat-icon>
+        <mat-error *ngIf="complaintForm.get('description')?.hasError('required')">
+          Description is required
+        </mat-error>
+        <mat-error *ngIf="complaintForm.get('description')?.hasError('minlength')">
+          Description must be at least 20 characters long
+        </mat-error>
+      </mat-form-field>
+
+      <!-- Related Grade Field (Optional) -->
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Related Grade (Optional)</mat-label>
+        <mat-select formControlName="noteId">
+          <mat-option value="">None</mat-option>
+          <mat-option *ngFor="let grade of data.grades" [value]="grade.id">
+            {{ getGradeDisplay(grade) }}
+          </mat-option>
+        </mat-select>
+        <mat-icon matSuffix>grade</mat-icon>
+        <mat-hint>Select a specific grade if your complaint is about a particular grade</mat-hint>
+      </mat-form-field>
+
+      <!-- Related Subject Field (Optional) -->
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Related Subject (Optional)</mat-label>
+        <mat-select formControlName="matiereId">
+          <mat-option value="">None</mat-option>
+          <mat-option *ngFor="let subject of data.subjects" [value]="subject.id">
+            {{ subject.nom }}
+          </mat-option>
+        </mat-select>
+        <mat-icon matSuffix>book</mat-icon>
+        <mat-hint>Select a subject if your complaint is about a general subject matter</mat-hint>
+      </mat-form-field>
+
+      <!-- Information Card -->
+      <mat-card class="info-card">
+        <mat-card-content>
+          <div class="info-header">
+            <mat-icon>info</mat-icon>
+            <h4>Important Information</h4>
+          </div>
+          <ul class="info-list">
+            <li>Be specific and clear in your description</li>
+            <li>Include relevant details about the grade or subject</li>
+            <li>Your complaint will be reviewed by academic staff</li>
+            <li>You will be notified of any updates to your complaint status</li>
+          </ul>
+        </mat-card-content>
+      </mat-card>
+    </form>
+  </mat-dialog-content>
+
+  <mat-dialog-actions align="end">
+    <button mat-button (click)="onCancel()" [disabled]="loading">
+      Cancel
+    </button>
+    <button 
+      mat-raised-button 
+      color="primary" 
+      (click)="onSubmit()" 
+      [disabled]="!complaintForm.valid || loading">
+      <mat-spinner *ngIf="loading" diameter="20" class="button-spinner"></mat-spinner>
+      <mat-icon *ngIf="!loading">send</mat-icon>
+      {{ loading ? 'Submitting...' : 'Submit Complaint' }}
+    </button>
+  </mat-dialog-actions>
+</div>

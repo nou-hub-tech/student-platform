@@ -1,0 +1,48 @@
+<div class="dialog-container">
+  <h2 mat-dialog-title>
+    <mat-icon>{{ isEditMode ? 'edit' : 'person_add' }}</mat-icon>
+    {{ isEditMode ? 'Edit Student' : 'Add Student' }}
+  </h2>
+
+  <mat-dialog-content>
+    <form [formGroup]="studentForm" class="student-form">
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Last Name</mat-label>
+        <input matInput formControlName="nom" placeholder="Enter last name">
+        <mat-error *ngIf="studentForm.get('nom')?.invalid && studentForm.get('nom')?.touched">
+          {{ getErrorMessage('nom') }}
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>First Name</mat-label>
+        <input matInput formControlName="prenom" placeholder="Enter first name">
+        <mat-error *ngIf="studentForm.get('prenom')?.invalid && studentForm.get('prenom')?.touched">
+          {{ getErrorMessage('prenom') }}
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Email</mat-label>
+        <input matInput formControlName="email" type="email" placeholder="Enter email address">
+        <mat-error *ngIf="studentForm.get('email')?.invalid && studentForm.get('email')?.touched">
+          {{ getErrorMessage('email') }}
+        </mat-error>
+      </mat-form-field>
+    </form>
+  </mat-dialog-content>
+
+  <mat-dialog-actions align="end">
+    <button mat-button (click)="onCancel()" [disabled]="isLoading">
+      Cancel
+    </button>
+    <button 
+      mat-raised-button 
+      color="primary" 
+      (click)="onSubmit()" 
+      [disabled]="studentForm.invalid || isLoading">
+      <mat-spinner diameter="20" *ngIf="isLoading"></mat-spinner>
+      <span *ngIf="!isLoading">{{ isEditMode ? 'Update' : 'Create' }}</span>
+    </button>
+  </mat-dialog-actions>
+</div>

@@ -1,0 +1,68 @@
+{
+  "info": {
+    "name": "Student Management System",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Etudiants",
+      "item": [
+        {
+          "name": "Create Etudiant",
+          "request": {
+            "method": "POST",
+            "header": [
+              {"key": "Content-Type", "value": "application/json"}
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"nom\":\"Dupont\",\"prenom\":\"Jean\",\"email\":\"jean.dupont@example.com\"}"
+            },
+            "url": "http://localhost:8080/api/v1/etudiants"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Matieres",
+      "item": [
+        {
+          "name": "Create Matiere",
+          "request": {
+            "method": "POST",
+            "header": [
+              {"key": "Content-Type", "value": "application/json"}
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"nom\":\"Mathematiques\",\"coefficient\":2}"
+            },
+            "url": "http://localhost:8080/api/v1/matieres"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Notes",
+      "item": [
+        {
+          "name": "Create Note",
+          "request": {
+            "method": "POST",
+            "header": [
+              {"key": "Content-Type", "value": "application/json"}
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"valeur\":15.5,\"etudiant\":{\"id\":1},\"matiere\":{\"id\":1}}"
+            },
+            "url": "http://localhost:8080/api/v1/notes"
+          },
+          "response": []
+        }
+      ]
+    }
+  ]
+}

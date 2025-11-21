@@ -1,0 +1,12 @@
+<div class="app-container">
+  <!-- Navigation -->
+  <app-navigation *ngIf="isAuthenticated() && router.url !== '/login' && router.url !== '/register'"></app-navigation>
+  
+  <!-- Main Content -->
+  <main class="main-content">
+    <router-outlet></router-outlet>
+  </main>
+  
+  <!-- Floating Chatbot - only show for authenticated users -->
+  <app-floating-chatbot *ngIf="isAuthenticated() && router.url !== '/login' && router.url !== '/register'"></app-floating-chatbot>
+</div> 

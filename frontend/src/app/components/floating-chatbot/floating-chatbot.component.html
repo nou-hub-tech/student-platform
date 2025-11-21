@@ -1,0 +1,85 @@
+<div class="floating-chatbot" 
+     [class.open]="isOpen"
+     [style.transform]="chatPosition"
+     (mousedown)="onMouseDown($event)"
+     (mousemove)="onMouseMove($event)"
+     (mouseup)="onMouseUp()"
+     (mouseleave)="onMouseUp()">
+  
+  <!-- Chat Toggle Button -->
+  <div class="chat-toggle" (click)="toggleChat()" *ngIf="!isOpen">
+    <div class="chat-icon">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M20 2H4C2.9 2 2 2.9 2 4V22L6 18H20C21.1 18 22 17.1 22 16V4C22 2.9 21.1 2 20 2ZM20 16H6L4 18V4H20V16Z" fill="currentColor"/>
+        <circle cx="7" cy="9" r="1" fill="currentColor"/>
+        <circle cx="12" cy="9" r="1" fill="currentColor"/>
+        <circle cx="17" cy="9" r="1" fill="currentColor"/>
+      </svg>
+    </div>
+    <div class="notification-dot" *ngIf="messages.length > 1"></div>
+  </div>
+
+  <!-- Chat Window -->
+  <div class="chat-window" *ngIf="isOpen">
+    <!-- Header -->
+    <div class="chat-header" (mousedown)="onMouseDown($event)">
+      <div class="header-content">
+        <div class="chat-title">
+          <div class="bot-avatar">🤖</div>
+          <span>Student Assistant</span>
+        </div>
+        <button class="close-btn" (click)="toggleChat()">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M19 6.41L17.59 5L12 10.59L6.41 5L5 6.41L10.59 12L5 17.59L6.41 19L12 13.41L17.59 19L19 17.59L13.41 12L19 6.41Z" fill="currentColor"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Messages -->
+    <div class="chat-messages">
+      <div class="message" 
+           *ngFor="let message of messages" 
+           [class.user-message]="message.isUser"
+           [class.bot-message]="!message.isUser">
+        <div class="message-content">
+          <div class="message-text" [innerHTML]="formatMessage(message.text)"></div>
+          <div class="message-time">{{ message.timestamp | date:'shortTime' }}</div>
+        </div>
+      </div>
+      
+      <!-- Loading indicator -->
+      <div class="message bot-message" *ngIf="isLoading">
+        <div class="message-content">
+          <div class="loading-indicator">
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Input Area -->
+    <div class="chat-input">
+      <div class="input-container">
+        <textarea 
+          [(ngModel)]="currentMessage"
+          (keypress)="onKeyPress($event)"
+          placeholder="Type your message..."
+          rows="1"
+          class="message-input"
+          [disabled]="isLoading">
+        </textarea>
+        <button 
+          class="send-btn" 
+          (click)="sendMessage()"
+          [disabled]="!currentMessage.trim() || isLoading">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M2.01 21L23 12L2.01 3L2 10L17 12L2 14L2.01 21Z" fill="currentColor"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

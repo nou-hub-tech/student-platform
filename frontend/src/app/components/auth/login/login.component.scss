@@ -1,0 +1,83 @@
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  padding: 20px;
+}
+
+.login-card {
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  padding: 40px;
+  width: 100%;
+  max-width: 400px;
+  text-align: center;
+}
+
+.login-header {
+  margin-bottom: 30px;
+}
+
+.login-icon {
+  font-size: 48px;
+  width: 48px;
+  height: 48px;
+  color: var(--primary-color);
+  margin-bottom: 16px;
+}
+
+.login-header h1 {
+  margin: 0 0 8px 0;
+  color: var(--text-primary);
+  font-size: 24px;
+  font-weight: 500;
+}
+
+.login-header p {
+  margin: 0;
+  color: var(--text-secondary);
+  font-size: 14px;
+}
+
+.login-form {
+  margin-bottom: 24px;
+}
+
+.login-form mat-form-field {
+  margin-bottom: 16px;
+}
+
+.login-button {
+  margin-top: 16px;
+  height: 48px;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.login-footer {
+  text-align: center;
+}
+
+.login-footer p {
+  margin: 0;
+  color: var(--text-secondary);
+  font-size: 14px;
+}
+
+.login-footer a {
+  text-decoration: none;
+}
+
+@media (max-width: 480px) {
+  .login-card {
+    padding: 24px;
+    margin: 10px;
+  }
+  
+  .login-header h1 {
+    font-size: 20px;
+  }
+} 

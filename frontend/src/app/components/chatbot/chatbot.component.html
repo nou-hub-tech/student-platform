@@ -1,0 +1,12 @@
+<div class="container">
+    <h2>🎓 Student Assistant</h2>
+
+    <input [(ngModel)]="question" placeholder="Ask something..." />
+    <button (click)="askQuestion()" [disabled]="loading || !question">Ask</button>
+
+    <div *ngIf="loading">Loading...</div>
+
+    <div *ngIf="!loading && answer">
+        {{ answer }}
+    </div>
+</div>
