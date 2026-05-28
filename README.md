@@ -1,3 +1,7 @@
+<img width="1913" height="924" alt="Screenshot 2026-05-28 211938" src="https://github.com/user-attachments/assets/e87f8247-4ca0-4092-a113-3a50dcdc2098" />
+
+
+
 # Student Platform
 
 Plateforme de gestion des étudiants + chatbot RAG.
