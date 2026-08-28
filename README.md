@@ -12,4 +12,4 @@ Plateforme de gestion des étudiants + chatbot RAG.
 ## Démarrer
 - Backend: `cd backend && mvn spring-boot:run`
 - Frontend: `cd frontend && npm install && ng serve`
-- RAG: `cd rag-service` puis lancer selon la techno
+- RAG: `cd RAG_MICROSERVICE && uvicorn app:app --reload` 
